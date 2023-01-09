@@ -102,3 +102,64 @@ void myShape(){
 }
 ```
 
+## step01-6 了解 sphere()
+
+先畫出圓球
+
+```processing
+size(300, 300, P3D);
+sphere(112);
+```
+
+因為球有太多線條，所以 `noStroke()` 才不會太多線條太花。但是看起來像白色的圓，所以加上打光的效果 `lights()`
+
+```processing
+size(300,300,P3D);
+lights();
+noStroke();
+sphere(112);
+```
+
+最後再把球移到畫面的中心。完成的程式，其實與 Processing 官網的 `sphere()` Reference 很像，但希望大家能體會「程式成長的過程」
+
+```processing
+size(300,300,P3D);
+lights();
+noStroke();
+translate(150,150);
+sphere(112);
+```
+
+
+## step01-7 在 box 的邊上畫 sphere
+
+試著模仿 Beady (SIGGRAPH Asia 2011) https://www.is.ocha.ac.jp/~yuki/papers/beady_SIGA2011sketch.pdf
+Figure 3 在 box 的邊上畫 sphere
+
+```processing
+void setup(){
+  size(300,300,P3D);
+}
+void draw(){
+  background(#FFFFF2);
+  lights();
+  pushMatrix();
+    translate(150,150);
+    rotateY(radians(frameCount));
+    stroke(0);
+    box(100);
+    mySphere( 50, 0, 50);
+    mySphere(-50, 0, 50);
+    mySphere( 50, 0, -50);
+    mySphere(-50, 0, -50);
+  popMatrix();
+}
+void mySphere(float x, float y, float z){
+  pushMatrix();
+    noStroke();
+    translate(x,y,z);
+    sphere(50);
+  popMatrix();
+}
+```
+
