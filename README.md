@@ -1,5 +1,5 @@
 # beady
-Teach students how to implement Yuki Igarashi's Bready (SIGGRAPH 2012) paper
+Teach students how to implement Yuki Igarashi's Beady (SIGGRAPH 2012) paper
 
 # Step-by-Step tutorials
 使用 Processing 一步步進行實作
