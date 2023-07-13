@@ -9,9 +9,9 @@ void setup(){
   String [] lines = loadStrings("penguin.obj"); //penguin = loadShape("penguin.obj");
   penguin = loadShape("penguin.obj");
   prepareVertexFaces(lines);
-  generateNewVertex();
+  generateNewVertex(4);
 }
-void generateNewVertex(){
+void generateNewVertex(float ratio){
   newVertices = new ArrayList<PVector>();
   for(ArrayList<Integer> face : faces){
     int N = face.size();
@@ -19,8 +19,10 @@ void generateNewVertex(){
       Integer k1 = face.get(i), k2 = face.get((i+1)%N);
       PVector p1 = vertices.get(k1-1), p2 = vertices.get(k2-1);
       PVector center = PVector.add(p1,p2).div(2);
-      PVector newp1 = PVector.add(p1,center).div(2);
-      PVector newp2 = PVector.add(p2,center).div(2);
+      PVector p1_10 = PVector.mult(p1,ratio);
+      PVector p2_10 = PVector.mult(p2,ratio);
+      PVector newp1 = PVector.add(p1_10,center).div(ratio+1);
+      PVector newp2 = PVector.add(p2_10,center).div(ratio+1);
       //newVertices.add(center);
       newVertices.add(newp1);
       newVertices.add(newp2);
@@ -59,7 +61,7 @@ void draw(){
       pushMatrix();
         translate(center.x, center.y, center.z);
         noStroke();
-        sphere(0.01);
+        sphere(0.003);
       popMatrix();
     }
   popMatrix();
