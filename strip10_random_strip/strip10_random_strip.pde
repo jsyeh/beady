@@ -98,28 +98,18 @@ void keyPressed(){
   if(key=='s'){
     strip = new ArrayList<Integer>(); //空白的 strip
     strip.add(faceID); //先把第1個faceID加進去 strip
-    
-    allNeighbors = findAllNeighbors(faceID); //把第1個 faceID的全部鄰居找出來
-    int N = allNeighbors.size(); //全部鄰居的數目N
-    
-    
-    while(strip.size()<5){ //只要還沒有strip收齊5個的話，繼續strip.add(next)
-    
-    
-      int nextI = int(random(N)); //亂數決定 0...<N 的 next index
-      int next = allNeighbors.get(nextI); //next index 去找到對應的 next
+    //(1) 找鄰居 (2) 亂數挑 (3) 加進去
+    int N, nextI, next = faceID;
+    do {
+      allNeighbors = findAllNeighbors(next);
+      N = allNeighbors.size(); //(1) 找鄰居
+      do {
+        nextI = int(random(N)); //(2) 亂數挑
+        next = allNeighbors.get(nextI);
+      } while(strip.indexOf(next) != -1);
       
-      while( strip.indexOf(next) != -1) { //如果 next 不幸已被加入 strip
-        nextI = int(random(N)); //重新亂數決定 0...<N 的 next index
-        next = allNeighbors.get(nextI); //next index 去找對應的 next
-      }
-      
-      
-      strip.add(next); //安全的 next 可加入 strip
-      
-      allNeighbors = findAllNeighbors(next); //再找新的 allNeighbors
-      N = allNeighbors.size(); //並且知道新的 鄰居數目N
-    }
+      strip.add(next); //(3) 加進去
+    } while(strip.size()<6);
   }
 
   if(key=='c'){
