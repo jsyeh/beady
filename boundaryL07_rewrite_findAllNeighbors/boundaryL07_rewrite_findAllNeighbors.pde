@@ -1,20 +1,23 @@
 ArrayList<PVector> vertices;
 ArrayList<ArrayList<Integer>> faces;
 HashMap<String, ArrayList<Integer>> edge2faces; //同一個邊，可能會對應到很多面
+ArrayList<Integer> allNeighbors = null;
 void setup(){
   size(500,500, P3D);
   String [] lines = loadStrings("cube.obj");
   prepareVertexFacesEdges(lines);
+  allNeighbors = findAllNeighbors(faceID);
 }
 void draw(){
   background(#FFFFF2);
   translate(width/2,height/2);
   lights();
   rotateY(radians(230));
-  ArrayList<Integer> list = edge2faces.get("1+2"); //想知道edge "1+2"
+  //ArrayList<Integer> list = edge2faces.get("1+2"); //想知道edge "1+2"
   for(int i=0; i<faces.size(); i++){
-    if(list.indexOf(i)!=-1) fill(#FF00FF); //把share edge 變紫色
-    //if(i==faceID) fill(#FF0000,128);//紅色
+    //if(list.indexOf(i)!=-1) fill(#FF00FF); //把share edge 變紫色
+    if(i==faceID) fill(#FF0000,128);//紅色
+    else if(allNeighbors.indexOf(i) != -1) fill(#00FF00, 128);//綠色
     else fill(128,128);
     drawFace( faces.get(i) );
   }
@@ -25,6 +28,7 @@ void keyPressed(){
   if(key=='1') faceID=1;
   if(key=='2') faceID=2;
   if(key=='3') faceID=3;
+  allNeighbors = findAllNeighbors(faceID);
 }
 void drawFace(ArrayList<Integer> face) {
   beginShape();
