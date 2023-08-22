@@ -41,10 +41,11 @@ void setup(){
 ArrayList< int [] > neighbors = new ArrayList< int [] > ();
 boolean shareTwoVertex(int i, int j){ //face i face j 是否是鄰居
   int share = 0;
-  for(Integer ii : faces.get(i)){ //face i 的頂點 ii
-    for(Integer jj : faces.get(j)){ //face j 的頂點 jj
-      if(ii==jj) share++;
-    }
+  for(int ii : faces.get(i)){ //face i 的頂點 ii
+    //for(int jj : faces.get(j)){ //face j 的頂點 jj
+    //  if(ii==jj) share++; //找到問題了,是因為物件Integer要轉成int
+    //}
+    if(faces.get(j).indexOf(ii) != -1) share++;
   }
   if(share==2)  return true;
   else return false;
@@ -75,18 +76,19 @@ void draw(){
   background(#FFFFF2);
   translate(width/2, height/2);
   scale(1500);
+  rotateY(radians(frameCount));
   lights();//再加這行打光
   stroke(255,0,0); //用紅色畫線
   strokeWeight(0.001); //線會被放大,所以事先縮小
-  for(ArrayList<Integer> face : faces){
+  /*for(ArrayList<Integer> face : faces){
     beginShape();
     for(Integer i : face){
       PVector p = vertices.get(i-1);
       vertex(p.x, p.y, p.z);
     }
     endShape(CLOSE);
-  }
-  strokeWeight(0.003); //點要畫粗一些 比0.001大一些
+  }*/
+  strokeWeight(0.001); //點要畫粗一些 比0.001大一些
   for(PVector center : centers){ //神奇的for迴圈
     point(center.x, center.y, center.z); //畫點
   }
